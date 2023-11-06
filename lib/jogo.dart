@@ -14,14 +14,10 @@ class _JogoState extends State<Jogo> {
       appBar: AppBar(
         title: const Text("JokePo"),
       ),
-      body: const Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // text 1
-          // imagem
-          // texto resultado
-          // Linha 3 imagem
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 32, bottom: 16),
             child: Text(
               "Escolha do App",
@@ -29,8 +25,13 @@ class _JogoState extends State<Jogo> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          Image(image: AssetImage("imagens/padrao.png")),
-          Padding(
+          GestureDetector(
+            onLongPress: () {
+              print("onLongPress");
+            },
+            child: const Image(image: AssetImage("imagens/padrao.png")),
+          ),
+          const Padding(
             padding: EdgeInsets.only(top: 32, bottom: 16),
             child: Text(
               "Escolha uma opção abaixo",
@@ -38,7 +39,7 @@ class _JogoState extends State<Jogo> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Image(image: AssetImage("imagens/pedra.png"), height: 95),
