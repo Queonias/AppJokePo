@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Jogo extends StatefulWidget {
@@ -8,6 +10,52 @@ class Jogo extends StatefulWidget {
 }
 
 class _JogoState extends State<Jogo> {
+  var _imagemApp = const AssetImage("imagens/padrao.png");
+  var _mensagem = "Escolha uma opção abaixo";
+
+  void _opcaoSelecionada(String escolhaUsuario) {
+    var opcoes = ["pedra", "papel", "tesoura"];
+    var numero = Random().nextInt(3);
+    var escolha = opcoes[numero];
+
+    switch (escolha) {
+      case "pedra":
+        setState(() {
+          _imagemApp = const AssetImage("imagens/pedra.png");
+        });
+        break;
+      case "papel":
+        setState(() {
+          _imagemApp = const AssetImage("imagens/papel.png");
+        });
+        break;
+      case "tesoura":
+        setState(() {
+          _imagemApp = const AssetImage("imagens/tesoura.png");
+        });
+        break;
+    }
+
+    // Validação do ganhador
+    if ((escolhaUsuario == "pedra" && escolha == "tesoura") ||
+        (escolhaUsuario == "tesoura" && escolha == "papel") ||
+        (escolhaUsuario == "papel" && escolha == "pedra")) {
+      setState(() {
+        _mensagem = "Parabéns!! você ganhou : /";
+      });
+    } else if ((escolha == "pedra" && escolhaUsuario == "tesoura") ||
+        (escolha == "tesoura" && escolhaUsuario == "papel") ||
+        (escolha == "papel" && escolhaUsuario == "pedra")) {
+      setState(() {
+        _mensagem = "você perdeu ; )";
+      });
+    } else {
+      setState(() {
+        _mensagem = "Empatamos :-0";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,26 +73,33 @@ class _JogoState extends State<Jogo> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          GestureDetector(
-            onLongPress: () {
-              print("onLongPress");
-            },
-            child: const Image(image: AssetImage("imagens/padrao.png")),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 32, bottom: 16),
+          Image(image: _imagemApp),
+          Padding(
+            padding: const EdgeInsets.only(top: 32, bottom: 16),
             child: Text(
-              "Escolha uma opção abaixo",
+              _mensagem,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image(image: AssetImage("imagens/pedra.png"), height: 95),
-              Image(image: AssetImage("imagens/papel.png"), height: 95),
-              Image(image: AssetImage("imagens/tesoura.png"), height: 95),
+              GestureDetector(
+                onTap: () => _opcaoSelecionada("pedra"),
+                child: const Image(
+                    image: AssetImage("imagens/pedra.png"), height: 95),
+              ),
+              GestureDetector(
+                onTap: () => _opcaoSelecionada("papel"),
+                child: const Image(
+                    image: AssetImage("imagens/papel.png"), height: 95),
+              ),
+              GestureDetector(
+                onTap: () => _opcaoSelecionada("tesoura"),
+                child: const Image(
+                    image: AssetImage("imagens/tesoura.png"), height: 95),
+              ),
             ],
           )
         ],
